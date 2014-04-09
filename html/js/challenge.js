@@ -5,10 +5,12 @@ $(function () {
     "use strict";
 
     var
-        red = "X769",
+        red = "8kv7",
         left = red,
-        blue = "4PMN",
+        blue = "c97s",
         right = blue,
+        redRobot,
+        blueRobot,
 
         ctrl = {
             leftClick: function () {
@@ -18,17 +20,23 @@ $(function () {
                 zeClicken(right);
             },
             discon: function () {
-                Robot.disconnectRobot(red);
-                Robot.disconnectRobot(blue);
+                redRobot.disconnect();
+                blueRobot.disconnect();
             },
             connect: function () {
-                Robot.connectRobot(red);
-                Robot.connectRobot(blue);
+                redRobot = Linkbots.connect(red);
+                blueRobot = Linkbots.connect(blue);
+                redRobot.register(callbacks);
+                blueRobot.register(callbacks);
+                redRobot.color(0,0,255);
+                blueRobot.color(255,0,0);
+
             },
             startOver: function (_, o) {
                 var newNumber = giveMeNumber(4,100);
                 o.topNumbers.update([newNumber]);
                 o.topNumber = newNumber;
+                ctrl.connect();
                 resetGame(o, newNumber);
             },
         },
@@ -48,47 +56,9 @@ $(function () {
             hasRobots: true,
         });
 
-    /* Mock Robot object for testing without any robots attached.
-     */
-
-    var Robot;
-    if (typeof window.Robot === "undefined") {
-        Robot = {};
-        [
-            "connectRobot",
-            "disconnectRobot",
-            "getRobotIDList",
-            "moveNB",
-            "printMessage",
-            "setColorRGB",
-            "setJointSpeeds",
-            "stop",
-        ].forEach(function (method) {
-            Robot[method] = function () {};
-        });
-        [
-            "scrollUp",
-            "scrollDown",
-            "buttonChanged",
-        ].forEach(function (event) {
-            Robot[event] = {
-                connect: function () {}
-            };
-        });
-        model.hasRobots = false;
-    }
-    else {
-        Robot = window.Robot;
-    }
-
     function giveMeNumber (min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
-
-    // integer division, i.e. quotient
-    //function quotient (num, div) {
-        //return (num - (num % div)) / div;
-    //}
 
     function isPrime (n) {
         var i;
@@ -137,37 +107,8 @@ $(function () {
         o.totalSuccess = false;
     }
 
-
-    Robot.scrollUp.connect(function (robID) {
-        if (robID === left) {
-          if (!model.leftDisabled) {
-              model.leftVal++;
-          }
-        }
-        else {
-          if (!model.rightDisabled) {
-              model.rightVal++;
-          }
-        }
-    });
-    Robot.scrollDown.connect(function (robID) {
-        if (robID === left) {
-            if (!model.leftDisabled) {
-                if (model.leftVal > 1.5) {
-                    model.leftVal--;
-                }
-            }
-        }
-        else {
-            if (!model.rightDisabled) {
-                if (model.rightVal > 1.5) {
-                    model.rightVal--;
-                }
-            }
-        }
-    });
-
-    function zeClicken (robID) {
+    function zeClicken (robot) {
+        var robID = robot._id;
         var top = model.topNumbers.last,
             val, otherVal, success, disabled, halfDone, fail;
         if (robID === left) {
@@ -209,10 +150,65 @@ $(function () {
         }
     }
 
+    var scrollUp = function (robID) {
+        if (robID === left) {
+          if (!model.leftDisabled) {
+              model.leftVal++;
+          }
+        }
+        else {
+          if (!model.rightDisabled) {
+              model.rightVal++;
+          }
+        }
+    }
+    var scrollDown = function (robID) {
+        if (robID === left) {
+            if (!model.leftDisabled) {
+                if (model.leftVal > 1.5) {
+                    model.leftVal--;
+                }
+            }
+        }
+        else {
+            if (!model.rightDisabled) {
+                if (model.rightVal > 1.5) {
+                    model.rightVal--;
+                }
+            }
+        }
+    }
 
-    Robot.buttonChanged.connect(zeClicken);
+    var changeValue = function(robot, _, event) {
+      if (event.difference > 0) {
+        scrollUp(robot._id);
+      }
+      else {
+        scrollDown(robot._id);
+      }
+    }
+
+    var callbacks = {
+      button: {
+        0: {
+          callback: zeClicken
+        },
+        1: {
+          callback: zeClicken
+        }
+      },
+      wheel: {
+        1: {
+          distance: 20,
+          callback: changeValue
+        },
+        3: {
+          distance: 20,
+          callback: changeValue
+        }
+      }
+    };
 
     ctrl.startOver(null, model);
     $("#challengeApp").replaceWith(Serenade.render('app', model, ctrl));
-
 });

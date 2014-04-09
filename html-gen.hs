@@ -74,7 +74,11 @@ challenge = boilerplate
       h2 $ "Factoring Challenge"
       H.div ! A.id "challengeApp" $ mempty
     )
-    ["js/vendor/serenade.0.5.0.js", "js/challenge/sr-view-app.js", "js/challenge.js"]
+    ["js/vendor/serenade.0.5.0.js"
+    ,"js/challenge/sr-view-app.js"
+    ,"js/vendor/linkbot.js"
+    ,"js/challenge.js"
+    ]
 
 main = mapM_ genHtml [
     ("html/challenge.html", challenge)
