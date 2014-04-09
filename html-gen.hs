@@ -27,7 +27,7 @@ boilerplate navlist content scripts =
             link ! rel "stylesheet" ! href "css/main.css"
         body $ do
             nav ! class_ "app" $ do
-                a ! href "index.html" $ img ! src "img/barobo_logo.png"
+                a ! href "index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
                 ol ! class_ "nav nav-stacked nav-pills" $ sequence_ navlist
             section ! A.style "right: 0" $ content
             scripts'
@@ -44,29 +44,23 @@ val :: String -> AttributeValue
 val = toValue
 
 labNavHdr =
-    [ li $ a ! href "holt.html" $ img ! src "img/holt_california.png"
-    , li $ a ! href "chap6.html" $ "Chapter 6"
+    [ li $ a ! href "#" $ img ! src "img/holt_california.png"
+    , li $ a ! href "#" $ "Chapter 1"
     , hr ! class_ "hdr"
-    ]
-
-labNavFtr =
-    [ hr ! class_ "ftr"
-    , li $ a ! href "lab_overview.html" $ small ! class_ "text-muted" $ "Overview"
     ]
 
 labNav, labNavInner :: String -> [Html]
 
 labNavInner title =
     [ li $ a ! href "setup.html" $ H.div $ do
-        "6.1:"
-        small "Cops vs. Robbers"
+        "1.2:"
+        small "Factoring"
     , li ! class_ "active" $ a ! href "#" $ toHtml title
     ]
 
 labNav title =
     labNavHdr ++
-    (labNavInner title) ++
-    labNavFtr
+    (labNavInner title)
 
 challenge = boilerplate
     (labNav "Challenge")
