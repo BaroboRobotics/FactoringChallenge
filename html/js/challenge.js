@@ -20,8 +20,8 @@ $(function () {
                 zeClicken(right);
             },
             discon: function () {
-                redRobot.disconnect();
-                blueRobot.disconnect();
+                redRobot && redRobot.disconnect();
+                blueRobot && blueRobot.disconnect();
             },
             connect: function () {
                 redRobot = Linkbots.connect(red);
@@ -36,6 +36,7 @@ $(function () {
                 var newNumber = giveMeNumber(4,100);
                 o.topNumbers.update([newNumber]);
                 o.topNumber = newNumber;
+                ctrl.discon();
                 ctrl.connect();
                 resetGame(o, newNumber);
             },
