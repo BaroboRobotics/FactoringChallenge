@@ -1,25 +1,25 @@
 div
-  h2
+  h2[style="text-align: center"]
     span[class:text-success=@totalSuccess]
       @topNumber
     span.text-success.response[class:show_=@totalSuccess]
       " YES!"
 div.challengeControl
-  label[for="left"]
-    "Robot 1"
+  label[for="left" style="color: blue"]
+    "Blue Robot"
   input[name="left" binding:change=@leftVal type="text" disabled=@leftDisabled class:disabled=@leftDisabled]
   button[event:click=leftClick! class:hidden=@hasRobots]
-    "Left Robot"
+    "Blue Robot"
   span.text-warning.response[class:show_=@leftFailed]
     "Guess again!"
   span.text-success.response[class:show_=@leftSuccess]
     "Success!"
   br
-  label[for="right"]
-    "Robot 2"
+  label[for="right" style="color: red"]
+    "Red Robot"
   input[name="right" binding:change=@rightVal type="text" disabled=@rightDisabled class:disabled=@rightDisabled]
   button[event:click=rightClick! class:hidden=@hasRobots]
-    "Right Robot"
+    "Red Robot"
   span.text-warning.response[class:show_=@rightFailed]
     "Guess again!"
   span.text-success.response[class:show_=@rightSuccess]
