@@ -4,31 +4,38 @@ div
       @topNumber
     span.text-success.response[class:show_=@totalSuccess]
       " YES!"
-div.challengeControl
-  label[for="left" style="color: blue"]
-    "Blue Robot"
-  input[name="left" binding:change=@leftVal type="text" disabled=@leftDisabled class:disabled=@leftDisabled]
-  button[event:click=leftClick! class:hidden=@hasRobots]
-    "Blue Robot"
-  span.text-warning.response[class:show_=@leftFailed]
-    "Guess again!"
-  span.text-success.response[class:show_=@leftSuccess]
-    "Success!"
-  br
-  label[for="right" style="color: red"]
-    "Red Robot"
-  input[name="right" binding:change=@rightVal type="text" disabled=@rightDisabled class:disabled=@rightDisabled]
-  button[event:click=rightClick! class:hidden=@hasRobots]
-    "Red Robot"
-  span.text-warning.response[class:show_=@rightFailed]
-    "Guess again!"
-  span.text-success.response[class:show_=@rightSuccess]
-    "Success!"
-  br
-  button[event:click=discon]
-    "Disconnect"
-  button[event:click=connect]
-    "Connect"
-  button[event:click=startOver]
-    "Start Over"
-
+form.challengeControl.form-horizontal
+  .form-group
+    label.col-sm-4.control-label[for="left" style="color: blue"]
+      "Blue Robot"
+    .col-sm-2
+      input.form-control[name="left" binding:change=@leftVal type="text" disabled=@leftDisabled class:disabled=@leftDisabled]
+    .col-sm-6
+      button[event:click=leftClick! class:hidden=@hasRobots]
+        "Blue Robot"
+      span.text-warning.response[class:show_=@leftFailed]
+        "Guess again!"
+      span.text-success.response[class:show_=@leftSuccess]
+        "Success!"
+  .form-group
+    label.col-sm-4.control-label[for="right" style="color: red"]
+      "Red Robot"
+    .col-sm-2
+      input.form-control[name="right" binding:change=@rightVal type="text" disabled=@rightDisabled class:disabled=@rightDisabled]
+    .col-sm-6
+      button[event:click=rightClick! class:hidden=@hasRobots]
+        "Red Robot"
+      span.text-warning.response[class:show_=@rightFailed]
+        "Guess again!"
+      span.text-success.response[class:show_=@rightSuccess]
+        "Success!"
+  .form-group
+    .col-sm-4
+      button.form-control[event:click=startOver]
+        "Start Over"
+    .col-sm-4
+      button.form-control[event:click=discon]
+        "Disconnect"
+    .col-sm-4
+      button.form-control[event:click=connect]
+        "Connect"

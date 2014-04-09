@@ -146,10 +146,6 @@ body {
     display: inline !important;
 }
 
-.challengeControl label {
-    padding-right: 2em;
-}
-
 nav {
     position: absolute;
     width: 10em;
