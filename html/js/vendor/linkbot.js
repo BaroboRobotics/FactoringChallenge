@@ -116,6 +116,13 @@ Linkbot = (function() {
     }
   };
 
+  Linkbot.prototype.unregister = function() {
+    baroboBridge.motorChanged.disconnect();
+    baroboBridge.disableMotorSignals(this._id);
+    baroboBridge.buttonChanged.disconnect();
+    return baroboBridge.disableButtonSignals(this._id);
+  };
+
   return Linkbot;
 
 })();
