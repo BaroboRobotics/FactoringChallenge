@@ -30,12 +30,26 @@ form.challengeControl.form-horizontal
       span.text-success.response[class:show_=@rightSuccess]
         "Success!"
   .form-group
+    label.col-sm-4.control-label.small[for="start-over"]
+      "New numbers?"
     .col-sm-4
-      button.form-control[event:click=startOver]
+      button.form-control[event:click=startOver!]
         "Start Over"
-    .col-sm-4
-      button.form-control[event:click=discon]
-        "Disconnect"
-    .col-sm-4
-      button.form-control[event:click=connect]
-        "Connect"
+  div[style="position:relative; top:2em"]
+    .form-group[style="position:relative; top:2px"]
+      label.col-sm-3.control-label[for="blue-id" style="color: blue"]
+        "Blue ID"
+      .col-sm-2
+        input.form-control[name="blue-id" type="text" binding:change=@blueId]
+      label.col-sm-3.control-label[for="red-id" style="color: red"]
+        "Red ID"
+      .col-sm-2
+        input.form-control[name="red-id" type="text" binding:change=@redId]
+    .form-group
+      .col-sm-4.col-sm-offset-4
+        button.form-control[event:click=connect!]
+          "Connect"
+    .form-group
+      .col-sm-4.col-sm-offset-4
+        button.form-control[event:click=discon!]
+          "Disconnect"
