@@ -22,12 +22,12 @@ boilerplate navlist content scripts =
     docTypeHtml ! lang "en" $ do
         H.head $ do
             meta ! charset "utf-8"
-            H.title "BaroboLab - DEMO"
+            H.title "Linkbot Labs"
             link ! rel "stylesheet" ! href "css/bootstrap.min.css"
             link ! rel "stylesheet" ! href "css/main.css"
         body $ do
             nav ! class_ "app" $ do
-                a ! href "index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
+                a ! href "../index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
                 ol ! class_ "nav nav-stacked nav-pills" $ sequence_ navlist
             section ! A.style "right: 0" $ content
             scripts'
