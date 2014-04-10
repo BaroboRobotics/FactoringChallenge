@@ -5,39 +5,41 @@ $(function () {
     "use strict";
 
     var
-        red = "8kv7",
-        left = red,
-        blue = "c97s",
-        right = blue,
         redRobot,
         blueRobot,
 
         ctrl = {
-            leftClick: function () {
-                zeClicken(left);
+            leftClick: function (_, o) {
+                zeClicken(redRobot, o);
             },
-            rightClick: function () {
-                zeClicken(right);
+            rightClick: function (_, o) {
+                zeClicken(blueRobot, o);
             },
             discon: function () {
-                redRobot && redRobot.disconnect();
-                blueRobot && blueRobot.disconnect();
+                if (redRobot) {
+                  redRobot.disconnect();
+                }
+                if (blueRobot) {
+                  blueRobot.disconnect();
+                }
             },
-            connect: function () {
-                redRobot = Linkbots.connect(red);
-                blueRobot = Linkbots.connect(blue);
-                redRobot.register(callbacks);
-                blueRobot.register(callbacks);
-                redRobot.color(0,0,255);
-                blueRobot.color(255,0,0);
+            connect: function (_, o) {
+                try {
+                  redRobot = Linkbots.connect(o.redId);
+                  redRobot.register(callbacks);
+                  redRobot.color(255, 0,0);
+                } catch (e) {}
+                try {
+                  blueRobot = Linkbots.connect(o.blueId);
+                  blueRobot.register(callbacks);
+                  blueRobot.color(0,0,255);
+                } catch (e) {}
 
             },
             startOver: function (_, o) {
                 var newNumber = giveMeNumber(4,100);
                 o.topNumbers.update([newNumber]);
                 o.topNumber = newNumber;
-                ctrl.discon();
-                ctrl.connect();
                 resetGame(o, newNumber);
             },
         },
@@ -108,11 +110,11 @@ $(function () {
         o.totalSuccess = false;
     }
 
-    function zeClicken (robot) {
+    function zeClicken (robot, o) {
         var robID = robot._id;
         var top = model.topNumbers.last,
             val, otherVal, success, disabled, halfDone, fail;
-        if (robID === left) {
+        if (robID === o.blueId) {
             val = 'leftVal';
             otherVal = 'rightVal';
             disabled = 'leftDisabled';
@@ -151,8 +153,8 @@ $(function () {
         }
     }
 
-    var scrollUp = function (robID) {
-        if (robID === left) {
+    var scrollUp = function (robID, o) {
+        if (robID === o.blueId) {
           if (!model.leftDisabled) {
               model.leftVal++;
           }
@@ -163,8 +165,8 @@ $(function () {
           }
         }
     }
-    var scrollDown = function (robID) {
-        if (robID === left) {
+    var scrollDown = function (robID, o) {
+        if (robID === o.blueId) {
             if (!model.leftDisabled) {
                 if (model.leftVal > 1.5) {
                     model.leftVal--;
@@ -180,32 +182,36 @@ $(function () {
         }
     }
 
-    var changeValue = function(robot, _, event) {
+    var changeValue = function(robot, o, event) {
       if (event.difference > 0) {
-        scrollUp(robot._id);
+        scrollUp(robot._id, o);
       }
       else {
-        scrollDown(robot._id);
+        scrollDown(robot._id, o);
       }
     }
 
     var callbacks = {
       button: {
         0: {
-          callback: zeClicken
+          callback: zeClicken,
+          data: model
         },
         1: {
-          callback: zeClicken
+          callback: zeClicken,
+          data: model
         }
       },
       wheel: {
         1: {
           distance: 20,
-          callback: changeValue
+          callback: changeValue,
+          data: model
         },
         3: {
           distance: 20,
-          callback: changeValue
+          callback: changeValue,
+          data: model
         }
       }
     };
