@@ -6,7 +6,7 @@ div
       " YES!"
 form.challengeControl.form-horizontal
   .form-group
-    label.col-sm-4.control-label[for="left" style="color: blue"]
+    label.col-sm-4.control-label[for="left" class:connected-blue=@blueConnected]
       "Blue Robot"
     .col-sm-2
       input.form-control[name="left" binding:change=@leftVal type="text" disabled=@leftDisabled class:disabled=@leftDisabled]
@@ -18,7 +18,7 @@ form.challengeControl.form-horizontal
       span.text-success.response[class:show_=@leftSuccess]
         "Success!"
   .form-group
-    label.col-sm-4.control-label[for="right" style="color: red"]
+    label.col-sm-4.control-label[for="right" class:connected-red=@redConnected]
       "Red Robot"
     .col-sm-2
       input.form-control[name="right" binding:change=@rightVal type="text" disabled=@rightDisabled class:disabled=@rightDisabled]
@@ -37,13 +37,13 @@ form.challengeControl.form-horizontal
         "Start Over"
   div[style="position:relative; top:2em"]
     .form-group[style="position:relative; top:2px"]
-      label.col-sm-3.control-label[for="blue-id" style="color: blue"]
+      label.col-sm-3.control-label.connected-blue[for="blue-id"]
         "Blue ID"
-      .col-sm-2
+      .col-sm-2[class:has-success=@blueConnected]
         input.form-control[name="blue-id" type="text" binding:change=@blueId]
-      label.col-sm-3.control-label[for="red-id" style="color: red"]
+      label.col-sm-3.control-label.connected-red[for="red-id"]
         "Red ID"
-      .col-sm-2
+      .col-sm-2[class:has-success=@redConnected]
         input.form-control[name="red-id" type="text" binding:change=@redId]
     .form-group
       .col-sm-4.col-sm-offset-4
