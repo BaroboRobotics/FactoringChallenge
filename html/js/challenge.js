@@ -15,32 +15,37 @@ $(function () {
             rightClick: function (_, o) {
                 zeClicken(blueRobot, o);
             },
-            discon: function () {
+            discon: function (_, o) {
                 if (redRobot) {
+                  redRobot.color(0,255,0);
                   redRobot.disconnect();
+                  o.redConnected = false;
+                  o.rightDisabled = true;
                 }
                 if (blueRobot) {
+                  blueRobot.color(0,255,0);
                   blueRobot.disconnect();
+                  o.blueConnected = false;
+                  o.leftDisabled = true;
                 }
             },
             connect: function (_, o) {
-                if (typeof redRobot !== "undefined" && redRobot._id !== null) {
-                  redRobot.disconnect();
-                }
-                if (typeof blueRobot !== "undefined" && blueRobot._id !== null) {
-                  blueRobot.disconnect();
-                }
+                ctrl.discon(null, o);
                 try {
                   redRobot = Linkbots.connect(o.redId);
                   redRobot.stop();
                   redRobot.register(callbacks);
                   redRobot.color(255, 0,0);
+                  o.redConnected = true;
+                  o.rightDisabled = false;
                 } catch (e) {}
                 try {
                   blueRobot = Linkbots.connect(o.blueId);
                   blueRobot.stop();
                   blueRobot.register(callbacks);
                   blueRobot.color(0,0,255);
+                  o.blueConnected = true;
+                  o.leftDisabled = false;
                 } catch (e) {}
 
             },
@@ -57,14 +62,16 @@ $(function () {
             topNumber: '',
             rightVal: null,
             leftVal: null,
-            leftDisabled: false,
-            rightDisabled: false,
+            leftDisabled: true,
+            rightDisabled: true,
             leftFailed: false,
             rightFailed: false,
             leftSuccess: false,
             rightSuccess: false,
             totalSuccess: false,
             hasRobots: true,
+            blueConnected: false,
+            redConnected: false,
         });
 
     function giveMeNumber (min, max) {
@@ -111,8 +118,8 @@ $(function () {
     function resetGame (o, n) {
         o.leftVal = giveMeNumber(2, 2*n/3);
         o.rightVal = giveMeNumber(2,2*n/3);
-        o.leftDisabled = false;
-        o.rightDisabled = false;
+        o.leftDisabled = true;
+        o.rightDisabled = true;
         o.leftSuccess = false;
         o.rightSuccess = false;
         o.totalSuccess = false;

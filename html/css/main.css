@@ -97,7 +97,12 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
+.connected-blue {
+    color: blue;
+}
+.connected-red {
+    color: red;
+}
 
 .chart {
   width: 100%;
