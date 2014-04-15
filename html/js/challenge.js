@@ -24,13 +24,21 @@ $(function () {
                 }
             },
             connect: function (_, o) {
+                if (typeof redRobot !== "undefined" && redRobot._id !== null) {
+                  redRobot.disconnect();
+                }
+                if (typeof blueRobot !== "undefined" && blueRobot._id !== null) {
+                  blueRobot.disconnect();
+                }
                 try {
                   redRobot = Linkbots.connect(o.redId);
+                  redRobot.stop();
                   redRobot.register(callbacks);
                   redRobot.color(255, 0,0);
                 } catch (e) {}
                 try {
                   blueRobot = Linkbots.connect(o.blueId);
+                  blueRobot.stop();
                   blueRobot.register(callbacks);
                   blueRobot.color(0,0,255);
                 } catch (e) {}
