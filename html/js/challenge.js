@@ -118,8 +118,8 @@ $(function () {
     function resetGame (o, n) {
         o.leftVal = giveMeNumber(2, 2*n/3);
         o.rightVal = giveMeNumber(2,2*n/3);
-        o.leftDisabled = true;
-        o.rightDisabled = true;
+        o.leftDisabled = false;
+        o.rightDisabled = false;
         o.leftSuccess = false;
         o.rightSuccess = false;
         o.totalSuccess = false;
