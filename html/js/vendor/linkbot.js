@@ -49,7 +49,7 @@ Linkbot = (function() {
   Linkbot.prototype._wheelRadius = 1.75;
 
   function Linkbot(_id) {
-    var err, m, _i;
+    var blessedFW, err, idAsURI, m, _i;
     this._id = _id;
     err = baroboBridge.connectRobot(this._id);
     if (err < 0) {
@@ -58,7 +58,14 @@ Linkbot = (function() {
     for (m = _i = 1; _i <= 3; m = ++_i) {
       baroboBridge.setMotorEventThreshold(this._id, m, 1e10);
     }
-    this.wheelPositions = baroboBridge.getMotorAngles(this._id);
+    this._wheelPositions = baroboBridge.getMotorAngles(this._id);
+    this._firmwareVersion = baroboBridge.firmwareVersion(this._id);
+    blessedFW = baroboBridge.availableFirmwareVersions()[0];
+    if (blessedFW !== this._firmwareVersion) {
+      this.disconnect();
+      idAsURI = encodeURIComponent(this._id);
+      document.location.replace("GettingStarted/index.html#robot-update?badRobot=" + idAsURI);
+    }
   }
 
   Linkbot.prototype.color = function(r, g, b) {
@@ -84,6 +91,7 @@ Linkbot = (function() {
   };
 
   Linkbot.prototype.disconnect = function() {
+    this.stop();
     baroboBridge.disconnectRobot(this._id);
     return this._id = null;
   };
@@ -147,8 +155,8 @@ wheelAction = function(robot, wheelId, callback, model) {
   return function(robID, _wheelId, angle) {
     var diff;
     if (robot._id === robID && wheelId === _wheelId) {
-      diff = angle - robot.wheelPositions[wheelId - 1];
-      robot.wheelPositions[wheelId - 1] = angle;
+      diff = angle - robot._wheelPositions[wheelId - 1];
+      robot._wheelPositions[wheelId - 1] = angle;
       return callback(robot, model, {
         triggerWheel: wheelId,
         position: angle,
