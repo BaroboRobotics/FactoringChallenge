@@ -62,9 +62,9 @@ Linkbot = (function() {
     this._firmwareVersion = baroboBridge.firmwareVersion(this._id);
     blessedFW = baroboBridge.availableFirmwareVersions()[0];
     if (blessedFW !== this._firmwareVersion) {
-      this.disconnect();
       idAsURI = encodeURIComponent(this._id);
-      document.location.replace("../GettingStarted/index.html#robot-update?badRobot=" + idAsURI);
+      this.disconnect();
+      document.location.replace("../GettingStarted/index.html?badRobot=" + idAsURI);
     }
   }
 
