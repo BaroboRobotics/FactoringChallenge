@@ -64,7 +64,7 @@ Linkbot = (function() {
     if (blessedFW !== this._firmwareVersion) {
       this.disconnect();
       idAsURI = encodeURIComponent(this._id);
-      document.location.replace("GettingStarted/index.html#robot-update?badRobot=" + idAsURI);
+      document.location.replace("../GettingStarted/index.html#robot-update?badRobot=" + idAsURI);
     }
   }
 
