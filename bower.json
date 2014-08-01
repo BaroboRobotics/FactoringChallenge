@@ -1,0 +1,17 @@
+{
+  "name": "factoring-challenge",
+  "version": "0.0.0",
+  "authors": [
+    "Barobo",
+    "Inc."
+  ],
+  "license": "-",
+  "private": true,
+  "ignore": [
+    "**/*",
+    "!html/**/*"
+  ],
+  "devDependencies": {
+    "linkbotjs": "BaroboRobotics/LinkbotJS#develop"
+  }
+}

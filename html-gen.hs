@@ -25,6 +25,7 @@ boilerplate navlist content scripts =
             H.title "Linkbot Labs"
             link ! rel "stylesheet" ! href "css/bootstrap.min.css"
             link ! rel "stylesheet" ! href "css/main.css"
+            link ! rel "stylesheet" ! href "component/linkbotjs/linkbot.css"
         body $ do
             nav ! class_ "app" $ do
                 a ! href "../index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
@@ -70,7 +71,7 @@ challenge = boilerplate
     )
     ["js/vendor/serenade.0.5.0.js"
     ,"js/challenge/sr-view-app.js"
-    ,"js/vendor/linkbot.js"
+    ,"component/linkbotjs/linkbot.js"
     ,"js/challenge.js"
     ]
 
