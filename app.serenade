@@ -40,19 +40,15 @@ form.challengeControl.form-horizontal
       label.col-sm-3.control-label.connected-blue[for="blue-id"]
         "Blue ID"
       .col-sm-2[class:has-success=@blueConnected]
-        input.form-control[name="blue-id" type="text" binding:change=@blueId]
+        input.form-control[disabled="1" name="blue-id" type="text" binding:change=@blueId]
       label.col-sm-3.control-label.connected-red[for="red-id"]
         "Red ID"
       .col-sm-2[class:has-success=@redConnected]
-        input.form-control[name="red-id" type="text" binding:change=@redId]
+        input.form-control[disabled="1" name="red-id" type="text" binding:change=@redId]
     .form-group
-      .col-sm-4.col-sm-offset-4
+      .col-sm-4.col-sm-offset-4[class:has-error=@badConnection]
         button.form-control[event:click=connect!]
-          "Connect"
-    .form-group
-      .col-sm-4.col-sm-offset-4
-        button.form-control[event:click=discon!]
-          "Disconnect"
+          "Connect robots"
     .form-group
       .col-sm-offset-8.col-sm-2
         a.btn.btn-primary[href="../index.html?finishedApp=FactoringChallenge"]

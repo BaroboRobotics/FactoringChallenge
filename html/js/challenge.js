@@ -18,35 +18,45 @@ $(function () {
             discon: function (_, o) {
                 if (redRobot) {
                   redRobot.color(0,255,0);
-                  redRobot.disconnect();
+                  //redRobot.disconnect();
                   o.redConnected = false;
                   o.rightDisabled = true;
                 }
                 if (blueRobot) {
                   blueRobot.color(0,255,0);
-                  blueRobot.disconnect();
+                  //blueRobot.disconnect();
                   o.blueConnected = false;
                   o.leftDisabled = true;
                 }
             },
             connect: function (_, o) {
+                // Be idempotent
+                if (redRobot && blueRobot) {
+                  return true;
+                }
+                var acq;
                 ctrl.discon(null, o);
-                try {
-                  redRobot = Linkbots.connect(o.redId);
-                  redRobot.stop();
+                acq = Linkbots.acquire(2);
+                if (acq.robots.length == 2) {
+                  // yay robots
+                  o.badConnection = false;
+                  redRobot = acq.robots[0];
                   redRobot.register(callbacks);
-                  redRobot.color(255, 0,0);
+                  redRobot.color(255,0,0);
                   o.redConnected = true;
                   o.rightDisabled = false;
-                } catch (e) {}
-                try {
-                  blueRobot = Linkbots.connect(o.blueId);
-                  blueRobot.stop();
+                  o.redId = redRobot._id;
+                  blueRobot = acq.robots[1];
                   blueRobot.register(callbacks);
                   blueRobot.color(0,0,255);
                   o.blueConnected = true;
                   o.leftDisabled = false;
-                } catch (e) {}
+                  o.blueId = blueRobot._id;
+                  }
+                else {
+                  // Sad robots
+                  o.badConnection = true;
+                }
 
             },
             startOver: function (_, o) {
@@ -72,6 +82,9 @@ $(function () {
             hasRobots: true,
             blueConnected: false,
             redConnected: false,
+            redId: "",
+            blueId: "",
+            badConnection: false,
         });
 
     function giveMeNumber (min, max) {
@@ -233,4 +246,5 @@ $(function () {
 
     ctrl.startOver(null, model);
     $("#challengeApp").replaceWith(Serenade.render('app', model, ctrl));
+    document.body.appendChild(Linkbots.managerElement());
 });
