@@ -4,6 +4,9 @@
   "authors": [
     "Barobo, Inc."
   ],
+  "main": [
+    "html/challenge.html"
+  ],
   "license": "-",
   "private": true,
   "ignore": [
