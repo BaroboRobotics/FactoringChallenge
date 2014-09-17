@@ -28,7 +28,7 @@ boilerplate navlist content scripts =
             link ! rel "stylesheet" ! href "component/linkbotjs/dist/linkbot.css"
         body $ do
             nav ! class_ "app" $ do
-                a ! href "../index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
+                a ! href "/AppManagerApp/html/index.html" $ img ! src "img/linkbot-labs-logo-200x29px.png"
                 ol ! class_ "nav nav-stacked nav-pills" $ sequence_ navlist
             section ! A.style "right: 0" $ content
             scripts'
