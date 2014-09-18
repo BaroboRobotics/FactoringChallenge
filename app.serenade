@@ -51,5 +51,5 @@ form.challengeControl.form-horizontal
           "Connect robots"
     .form-group
       .col-sm-offset-8.col-sm-2
-        a.btn.btn-primary[href="/AppManagerApp/html/index.html?finishedApp=FactoringChallenge"]
+        a.btn.btn-primary[href="/index.html?finishedApp=FactoringChallenge"]
           "Finish"
