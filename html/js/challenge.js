@@ -38,72 +38,59 @@ $(function () {
                 ctrl.discon(null, o);
                 acq = Linkbots.acquire(2);
                 if (acq.robots.length == 2) {
-                  // yay robots
-                  o.badConnection = false;
-                  redRobot = acq.robots[0];
-                  var btnA = redRobot.BUTTON_A;
-                  var btnB = redRobot.BUTTON_B;
-                  redRobot.register({
-                      button: {
-                          btnA: {
-                              callback: zeClicken,
-                              data: model
-                          },
-                          btnB: {
-                              callback: zeClicken,
-                              data: model
-                          }
-                      },
-                      wheel: {
-                          1: {
-                              distance: 20,
-                              callback: changeValue,
-                              data: model
-                          },
-                          3: {
-                              distance: 20,
-                              callback: changeValue,
-                              data: model
-                          }
-                      }
-                  });
-                  redRobot.color(255,0,0);
-                  o.redConnected = true;
-                  o.rightDisabled = false;
-                  o.redId = redRobot._id;
-                  blueRobot = acq.robots[1];
-                  blueRobot.register({
-                        button: {
-                            btnA: {
-                                callback: zeClicken,
-                                    data: model
-                            },
-                            btnB: {
-                                callback: zeClicken,
-                                    data: model
-                            }
-                        },
+                    // yay robots
+                    o.badConnection = false;
+                    redRobot = acq.robots[0];
+                    var btnA = redRobot.BUTTON_A;
+                    var btnB = redRobot.BUTTON_B;
+                    var obj1 = {
+                        button: {},
                         wheel: {
-                            1: {
+                            0: {
                                 distance: 20,
-                                    callback: changeValue,
-                                    data: model
+                                callback: changeValue,
+                                data: model
                             },
-                            3: {
+                            2: {
                                 distance: 20,
-                                    callback: changeValue,
-                                    data: model
+                                callback: changeValue,
+                                data: model
                             }
                         }
-                  });
-                  blueRobot.color(0,0,255);
-                  o.blueConnected = true;
-                  o.leftDisabled = false;
-                  o.blueId = blueRobot._id;
-                  }
-                else {
-                  // Sad robots
-                  o.badConnection = true;
+                    };
+                    obj1.button[btnA] = { callback: zeClicken, data: model };
+                    obj1.button[btnB] = { callback: zeClicken, data: model };
+                    redRobot.register(obj1);
+                    redRobot.color(255,0,0);
+                    o.redConnected = true;
+                    o.rightDisabled = false;
+                    o.redId = redRobot._id;
+                    blueRobot = acq.robots[1];
+                    var obj2 = {
+                        button: {},
+                        wheel: {
+                            0: {
+                                distance: 20,
+                                callback: changeValue,
+                                data: model
+                            },
+                            2: {
+                                distance: 20,
+                                callback: changeValue,
+                                data: model
+                            }
+                        }
+                    };
+                    obj2.button[btnA] = { callback: zeClicken, data: model };
+                    obj2.button[btnB] = { callback: zeClicken, data: model };
+                    blueRobot.register(obj2);
+                    blueRobot.color(0,0,255);
+                    o.blueConnected = true;
+                    o.leftDisabled = false;
+                    o.blueId = blueRobot._id;
+                } else {
+                    // Sad robots
+                    o.badConnection = true;
                 }
 
             },
@@ -294,5 +281,4 @@ $(function () {
 
     ctrl.startOver(null, model);
     $("#challengeApp").replaceWith(Serenade.render('app', model, ctrl));
-    document.body.appendChild(Linkbots.managerElement());
 });
